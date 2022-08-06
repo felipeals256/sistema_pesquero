@@ -1,0 +1,108 @@
+{% extends 'base/index.html' %}
+
+{% block content %}
+    
+        
+<div class="col-12">
+    <div class="row d-flex justify-content-center">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        USUARIOS
+                        
+                    </div>
+                  
+                </div>
+
+                <ul class="nav nav-tabs bg-primary " >
+                    <li class="nav-item ">
+                      <a class="nav-link pointer  active" href="/usuarios/" >Inicio</a>
+                    </li>
+                    <li class="nav-item text-white ">
+                      <a class="nav-link pointer text-white" href="/usuarios/crear/" >Crear</a>
+                    </li>
+                  </ul>
+
+                <div class="card-body">
+                  
+                    <table class="table viaje_table">
+                        <thead>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Nombre Usuario</th>
+                            <th>Tipo de Usuario</th>
+                            <th>Último Ingreso</th>
+                        </thead>
+                        <tbody id="tbody">
+                            {% if items %}
+                            {% for item in items %}
+                                 <tr class="hover {% if viaje and viaje.tripcode == item.tripcode %} active {% endif %}" onclick="location.href='/usuarios/crear/{{item.id}}'">
+                                    <td>{{item.id|default_if_none:''}}</td>
+                                    <td>{{item.getFullName|default_if_none:''}}</td>
+                                    <td>{{item.username|default_if_none:''}}</td>
+                                    <td>{{item.user_type|default_if_none:''}}</td>
+                                    <td>{{item.last_login|date:'d-m-Y' }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                    {% if items.has_next or items.has_previous %}
+
+                    {% load filtro_navegador %}
+                    <nav class="original" aria-label="Page navigation example ">
+                      <ul class="pagination">
+                            {% if items.has_previous %}
+                                <li class="page-item">
+                                  <a class="page-link" href="?page=1" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                  </a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" href="?page={{ items.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">Anterior</span>
+                                  </a>
+                                </li>
+
+                            {% endif %}
+                            {% for page in items.paginator.page_range|page_filter:items %}
+                                <li class="page-item {% if items.number == page %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% endfor %}
+
+                            {% if items.has_next %}
+                                <li class="page-item">
+                                  <a class="page-link" href="?page={{ items.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">Siguiente</span>
+                                  </a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" href="?page={{ items.paginator.page_range|length }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                  </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
+                    <nav class="ajax" aria-label="Page navigation example ">
+                      <ul id="ajax_lista" class="pagination">
+                            
+                        </ul>
+                    </nav>
+
+                {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+
+       
+ 
+
+
+{% endblock %}
