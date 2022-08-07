@@ -19,9 +19,11 @@ from core.model.maestro.unidad import Unidad
 OTROS
 """
 from core.model.bote_vigencia import BoteVigencia
+from core.model.bote_vigencia_historico import BoteVigenciaHistorico
 from core.model.destino import Destino
 from core.model.destino_tipo import DestinoTipo
 from core.model.trampa import Trampa
+from core.model.bote_historico import BoteHistorico
 from core.model.trampa_historico import TrampaHistorico
 from core.model.carnada import Carnada
 from core.model.carnada_registro import CarnadaRegistro
