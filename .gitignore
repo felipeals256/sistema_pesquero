@@ -3,6 +3,10 @@
 # Learn more about .gitignore:
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
+.env
+cloud_sql_proxy
+venv/
+
 # Entornos virtuales
 /env
 
