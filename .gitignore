@@ -7,5 +7,6 @@ __pycache__/
 cloud_sql_proxy
 venv
 /static
+migrations
 
 
