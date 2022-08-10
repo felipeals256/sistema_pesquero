@@ -1,0 +1,234 @@
+{% extends 'base/index.html' %}
+
+{% block content %}
+    
+        
+<div class="col-12">
+    <div class="row d-flex justify-content-center">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        REPORTES
+                        
+                        
+                    </div>
+                  
+                </div>
+                <div class="card-body">
+                  
+                    <table class="table viaje_table">
+                        <thead>
+                            <th>ID</th>
+                            <th>Tripcode</th>
+                            <th>Isla</th>
+                            <th>Bote</th>
+                            <th>Temporada</th>
+                            <th>Fecha</th>
+                        </thead>
+                        <tbody id="tbody">
+                            {% if items %}
+                            {% for item in items %}
+                                 <tr class="hover {% if viaje and viaje.tripcode == item.tripcode %} active {% endif %}" onclick="location.href='/reportes/index/{{item.id}}/?page={{page}}'">
+                                    <td>{{item.id|default_if_none:''}}</td>
+                                    <td>{{item.tripcode|default_if_none:''}}</td>
+                                    <td>{{item.mt_isla.descripcion|default_if_none:''}}</td>
+                                    <td>{{item.mt_bote.descripcion|default_if_none:''}}</td>
+                                    <td>{{item.temporada|default_if_none:''}}</td>
+                                    <td>{{item.fecha|date:'d-m-Y' }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                    {% if items.has_next or items.has_previous %}
+
+                    {% load filtro_navegador %}
+                    <nav class="original" aria-label="Page navigation example ">
+                      <ul class="pagination">
+                            {% if items.has_previous %}
+                                <li class="page-item">
+                                  <a class="page-link" href="?page=1" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                  </a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" href="?page={{ items.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">Anterior</span>
+                                  </a>
+                                </li>
+
+                            {% endif %}
+                            {% for page in items.paginator.page_range|page_filter:items %}
+                                <li class="page-item {% if items.number == page %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% endfor %}
+
+                            {% if items.has_next %}
+                                <li class="page-item">
+                                  <a class="page-link" href="?page={{ items.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">Siguiente</span>
+                                  </a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" href="?page={{ items.paginator.page_range|length }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                  </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
+                    <nav class="ajax" aria-label="Page navigation example ">
+                      <ul id="ajax_lista" class="pagination">
+                            
+                        </ul>
+                    </nav>
+
+                {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+
+        {% if viaje %}
+        <div class="col-10 mt-4 mb-5" >
+
+            <div class="card" >
+                <div class="card-header">
+                  DETALLE DEL VIAJE #{{viaje.tripcode|default_if_none:''}}
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-4">
+                    <h5 class="mt-4 text-center"><b>Detalle</b></h5>
+               
+                    <div>
+                        <!--<a class="btn btn-secondary" id="btn_eliminar" onclick="eliminar(${(viaje.id?viaje.id:'')})" >Eliminar</a>-->
+                        <a class="btn btn-info" id="btn_editar" href="/reportes/viaje/editar/{{viaje.id}}" >Editar</a>
+                    </div>
+                </div>
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:30%"><b>Declaración:</b></td>
+                            <td>{{viaje.declaracion|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Isla:</b></td>
+                            <td>{{viaje.mt_isla|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Bote:</b></td>
+                            <td>{{viaje.mt_bote|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Fecha:</b></td>
+                            <td>{{viaje.fecha|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Temporada:</b></td>
+                            <td>{{viaje.temporada|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Trampas en el agua:</b></td>
+                            <td>{{viaje.n_trampas_agua |default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Trampas visitadas:</b></td>
+                            <td>{{viaje.n_trampas_visitadas |default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Especie:</b></td>
+                            <td>{{viaje.mt_especie|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Comentario:</b></td>
+                            <td>{{viaje.comentario|default_if_none:''}}</td>
+                        </tr>
+                        {% if viaje.es_web == False%}
+                        <tr>
+                            <td style="width:30%"><b>Subido el:</b></td>
+                            <td>{{viaje.created_at|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Creado por:</b></td>
+                            <td>{{viaje.user_created.getFullName|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Fecha de creación:</b></td>
+                            <td>{{viaje.local_creacion|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Modificado por:</b></td>
+                            <td>{{viaje.user_updated.getFullName|default_if_none:''}} el {{viaje.updated_at|default_if_none:''}}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+
+                    <h5 class="mt-4 text-center"><b>Trampas en el agua</b></h5>
+                    <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sector</th>
+                                <th scope="col">Otro Sector</th>
+                                <th scope="col">Ventana de escape</th>
+                                <th scope="col">N° comercial</th>
+                                <th scope="col">N° no comercial</th>
+                                <th scope="col">Bycatch</th>
+                                <th scope="col">Cant. Bycatch</th>
+                                <th scope="col">Observación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                                {% for aux in viaje.getTrampaHistorico %}    
+                                    <tr>
+                                        <td scope="row">{{aux.mt_sector.descripcion|default_if_none:''}}</td>
+                                        <td scope="row">{{aux.otro_sector|default_if_none:''}}</td>
+                                        <td scope="row">{% if aux.ventana_escape == True %}Si{% else %} {% if aux.ventana_escape == False %}No{% else %}{% endif %}{% endif %} </td>
+                                        <td scope="row">{{aux.num_comercial|default_if_none:''}}</td>
+                                        <td scope="row">{{aux.num_no_comercial|default_if_none:''}}</td>
+                                        <td scope="row">{{aux.bycatch.nombre|default_if_none:''}}</td>
+                                        <td scope="row">{{aux.bycatch_cantidad|default_if_none:''}}</td>
+                                        <td scope="row">{{aux.observaciones|default_if_none:''}}</td>
+                                    </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <h5 class="mt-4 text-center"><b>Registro de Carnadas</b></h5>
+                    <table class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th>Carnada</th>
+                                <th>Unidad</th>
+                                <th>Volumen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for aux in viaje.getCarnadaRegistro %}
+                            <tr>
+                                <td>{{aux.mt_especie.nombre|default_if_none:''}}</td>
+                                <td>{{aux.mt_unidad.descripcion|default_if_none:''}}</td>
+                                <td>{{aux.volumen|default_if_none:''}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+
+{% endif %}
+
+ 
+
+
+{% endblock %}
