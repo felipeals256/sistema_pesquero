@@ -8,5 +8,6 @@ cloud_sql_proxy
 venv
 /static
 migrations
+settings.py
 
 
