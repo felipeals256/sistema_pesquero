@@ -1,4 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+
 .env
 cloud_sql_proxy
 venv
 /static
+
+
