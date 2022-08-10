@@ -34,6 +34,16 @@ class BoteVigencia(models.Model):
     user_modificador=models.ForeignKey(User, 
                                 on_delete=models.PROTECT,
                                 null=True,
+                                blank=True,
+                                related_name='+',
+                                verbose_name="modificado por",
+                            )
+
+    user_creador=models.ForeignKey(to="core.User",
+                                related_name='+',
+                                on_delete=models.PROTECT,
+                                null=True,
+                                verbose_name="creado por",
                                 blank=True
                             )
 
@@ -62,6 +72,23 @@ class BoteVigencia(models.Model):
         if self.id and BoteVigencia.objects.filter(mt_bote_id=self.mt_bote.id,mt_isla_id=self.mt_isla.id).exclude(id=self.id).exists():
             raise ValidationError("Ya existe una vigencia para este bote en esta isla")
 
+
+    def save(self):
+        from core.model.bote_vigencia_historico import BoteVigenciaHistorico
+
+        if self.id:
+            bote_vigencia=BoteVigencia.objects.filter(id=self.id).first()
+            if bote_vigencia:
+                historico                   = BoteVigenciaHistorico()
+                historico.bote_vigencia     = self
+                historico.mt_bote           = bote_vigencia.mt_bote
+                historico.mt_isla           = bote_vigencia.mt_isla
+                historico.user_modificador  = bote_vigencia.user_modificador
+                historico.fecha_termino     = bote_vigencia.fecha_termino
+                
+                historico.save()
+
+        super().save()
 
 
 class BoteVigenciaSerializer(serializers.ModelSerializer):

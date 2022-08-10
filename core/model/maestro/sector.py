@@ -8,22 +8,42 @@ class Sector(models.Model):
 
 
 
-    codigo = models.IntegerField(
+    codigo = models.CharField(max_length=100,
                             unique=True,
+                            verbose_name="código",
                             )
 
     descripcion = models.CharField(max_length=255,
                             null=True,
                             blank=True,
+                            verbose_name="descripción",
+                            )
+    
+
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    user_modificador=models.ForeignKey(to="core.User",
+                                on_delete=models.PROTECT,
+                                null=True,
+                                blank=True,
+                                related_name='+',
+                                verbose_name="modificado por",
                             )
 
-
+    user_creador=models.ForeignKey(to="core.User",
+                                related_name='+',
+                                on_delete=models.PROTECT,
+                                null=True,
+                                verbose_name="creado por",
+                                blank=True
+                            )
 
 
  
     class Meta:
         verbose_name="Sector"
-        verbose_name_plural=verbose_name+"s"
+        verbose_name_plural=verbose_name+"es"
         db_table =("mt_"+str(verbose_name).replace(' ','_')).lower()
     
     def __str__(self):

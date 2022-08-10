@@ -17,14 +17,20 @@ class Especie(models.Model):
 
 
 
-    codigo = models.IntegerField(
+    codigo = models.CharField(max_length=5,
                             unique=True,
+                            verbose_name="código",
                             )
 
     nombre = models.CharField(max_length=255,
                             null=True,
                             blank=True,
                             )
+    nombre_cientifico = models.CharField(max_length=100,
+                            null=True,
+                            blank=True,
+                            )
+
 
     defecto = models.BooleanField(null=True,
                             blank=True,
@@ -47,6 +53,25 @@ class Especie(models.Model):
                             null=True,
                             blank=True,
                          )
+
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    user_modificador=models.ForeignKey(to="core.User",
+                                on_delete=models.PROTECT,
+                                null=True,
+                                blank=True,
+                                related_name='+',
+                                verbose_name="modificado por",
+                            )
+
+    user_creador=models.ForeignKey(to="core.User",
+                                related_name='+',
+                                on_delete=models.PROTECT,
+                                null=True,
+                                verbose_name="creado por",
+                                blank=True
+                            )
 
 
 

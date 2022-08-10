@@ -10,6 +10,7 @@ class Unidad(models.Model):
 
     codigo = models.IntegerField(
                             unique=True,
+                            verbose_name="código",
                             )
 
     unidad = models.CharField(max_length=5,
@@ -21,8 +22,27 @@ class Unidad(models.Model):
     descripcion = models.CharField(max_length=255,
                             null=True,
                             blank=True,
+                            verbose_name="descripción",
                             )
 
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    user_modificador=models.ForeignKey(to="core.User",
+                                on_delete=models.PROTECT,
+                                null=True,
+                                blank=True,
+                                related_name='+',
+                                verbose_name="modificado por",
+                            )
+
+    user_creador=models.ForeignKey(to="core.User",
+                                related_name='+',
+                                on_delete=models.PROTECT,
+                                null=True,
+                                verbose_name="creado por",
+                                blank=True
+                            )
 
 
 

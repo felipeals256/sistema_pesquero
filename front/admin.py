@@ -18,6 +18,15 @@ class ArteAdmin(admin.ModelAdmin):
     search_fields = ['codigo', 'descripcion']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['codigo', 'descripcion']
+
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
+
     def has_delete_permission(self, request, obj=None):
         return False
     
@@ -33,19 +42,28 @@ admin.site.register(Arte,ArteAdmin)
 	
 class BoteAdmin(admin.ModelAdmin):
 	# con esto muestras los campos que deses al mostrar la lista en admin
-    list_display=['numero', 'descripcion']
+    list_display=['numero','matricula','nombre', 'descripcion']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
-    search_fields = ['numero', 'descripcion']
+    search_fields =['numero','matricula','nombre', 'descripcion']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['numero', 'descripcion']
     def has_delete_permission(self, request, obj=None):
         return False
+
+    readonly_fields = ('user_modificador','user_creador',)
 
     def get_actions(self, request):
         actions = super(BoteAdmin, self).get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
 
 admin.site.register(Bote,BoteAdmin)
 
@@ -55,6 +73,14 @@ class EspecieAdmin(admin.ModelAdmin):
     list_display=['codigo', 'nombre', 'mt_especie_tipo','mt_unidad']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
     search_fields = ['codigo', 'nombre']
+
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -76,6 +102,14 @@ class IslaAdmin(admin.ModelAdmin):
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
 
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
+
     def has_delete_permission(self, request, obj=None):
         return False
 
@@ -96,6 +130,14 @@ class SectorAdmin(admin.ModelAdmin):
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
 
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
+
     def has_delete_permission(self, request, obj=None):
         return False
 
@@ -115,6 +157,14 @@ class ZonaAdmin(admin.ModelAdmin):
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
 
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
+
     def has_delete_permission(self, request, obj=None):
         return False
 
@@ -133,6 +183,14 @@ class UnidadAdmin(admin.ModelAdmin):
     search_fields = ['codigo','unidad', 'descripcion']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
+
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -154,6 +212,14 @@ class EspecieTipoAdmin(admin.ModelAdmin):
     search_fields = ['codigo', 'descripcion']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
+    
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -178,18 +244,30 @@ class BoteVigenciaAdmin(admin.ModelAdmin):
 
     list_filter = ['mt_bote', 'mt_isla','fecha_termino']
 
+    readonly_fields = ('user_modificador','user_creador',)
+    #metodo que se utiliza al momento de llamar el save()
+    def save_model(self, request, obj, form, change):
+        obj.user_modificador = request.user
+        if not obj.id:
+            obj.user_creador = request.user
+        super().save_model(request, obj, form, change)
+
     def has_delete_permission(self, request, obj=None):
         return False
 
     def get_actions(self, request):
         actions = super(BoteVigenciaAdmin, self).get_actions(request)
+
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
 
+
+
     def get_readonly_fields(self, request, obj=None): 
-        if obj: # editing an existing object 
-            return self.readonly_fields + ('user_modificador',) 
+   
+        #if obj: # editing an existing object 
+        #    return self.readonly_fields + ('user_modificador',) 
 
         return self.readonly_fields
 

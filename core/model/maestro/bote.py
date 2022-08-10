@@ -3,7 +3,7 @@ from django.db import models
 
 from rest_framework import serializers
 
-
+from core.model.bote_historico import BoteHistorico
 
 """
 BOTE: Se administrará un histórico del bote, con sus características actualizadas desde el
@@ -18,19 +18,101 @@ class Bote(models.Model):
 
     numero = models.IntegerField(
                             unique=True,
+                            verbose_name="número",
+                            )
+    matricula = models.IntegerField(
+                            unique=True,
+                            verbose_name="matrícula",
+                            )
+
+    nombre = models.CharField(max_length=100,
+                            null=True,
+                            blank=True,
+                            )
+
+    propietario = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            )
+
+    materialidad = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            )
+
+    manga = models.IntegerField(
+                            null=True,
+                            blank=True,
+                            )
+    eslora = models.IntegerField(
+                            null=True,
+                            blank=True,
+                            )
+    forma = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            )
+    rpa = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            )
+
+    observaciones = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
                             )
 
     descripcion = models.CharField(max_length=255,
                             null=True,
                             blank=True,
+                            verbose_name="descripción",
                             )
 
-    rpa = models.CharField(max_length=255,
-                            null=True,
-                            blank=True,
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    user_modificador=models.ForeignKey(to="core.User",
+                                on_delete=models.PROTECT,
+                                null=True,
+                                blank=True,
+                                related_name='+',
+                                verbose_name="modificado por",
+                            )
+
+    user_creador=models.ForeignKey(to="core.User",
+                                related_name='+',
+                                on_delete=models.PROTECT,
+                                null=True,
+                                verbose_name="creado por",
+                                blank=True
                             )
     
+    
+    def save(self):
 
+        bote=Bote.objects.filter(id=self.id).first()
+        if bote:
+            historico = BoteHistorico()
+            historico.mt_bote           = bote
+            historico.numero            = bote.numero
+            historico.matricula         = bote.matricula
+            historico.nombre            = bote.nombre
+            historico.propietario       = bote.propietario
+            historico.materialidad      = bote.materialidad
+            historico.manga             = bote.manga
+            historico.eslora            = bote.eslora
+            historico.forma             = bote.forma
+            historico.rpa               = bote.rpa
+            historico.observaciones     = bote.observaciones
+            historico.descripcion       = bote.descripcion
+            historico.user_modificador  = bote.user_modificador
+            historico.save()
+
+        super().save()
+        
+        #print(self._meta.db_table)
+        #print(bote_historico._meta.db_table)
+        
     
 
 
