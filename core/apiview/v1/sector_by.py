@@ -8,7 +8,7 @@ from core.model.maestro.sector import Sector
 from core.model.maestro.sector import SectorSerializer
 
 class SectorByView(APIView):
-    permission_classes = () #no requiere de permisos
+    #permission_classes = () #no requiere de permisos
     serializer_class = SectorSerializer
 
     def post(self, request, parametro=None,pk=None):
