@@ -25,6 +25,9 @@ class User(AbstractUser):
 
 
     def getFullName(self):
+        if not self.first_name and not self.last_name:
+            return self.username
+
         return self.first_name+" "+self.last_name
 
     def __str__(self):

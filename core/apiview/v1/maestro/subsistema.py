@@ -4,27 +4,27 @@ from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import status
 
-from core.model.maestro.isla import Isla
-from core.model.maestro.isla import IslaSerializer
+from core.model.maestro.subsistema import Subsistema
+from core.model.maestro.subsistema import SubsistemaSerializer
 
-class IslaView(APIView):
+class SubsistemaView(APIView):
     #permission_classes = () #no requiere de permisos
-    serializer_class = IslaSerializer
+    serializer_class = SubsistemaSerializer
     
 
     def get_object(self, pk):
         try:
-            return Isla.objects.get(id=pk)
-        except Isla.DoesNotExist:
+            return Subsistema.objects.get(id=pk)
+        except Subsistema.DoesNotExist:
             return None
 
     def get(self, request,pk=None):
         if pk:
             data = self.get_object(pk)
-            serializer = IslaSerializer(data, many=False)
+            serializer = SubsistemaSerializer(data, many=False)
         else:
-            data = Isla.objects.all()
-            serializer = IslaSerializer(data, many=True)  
+            data = Subsistema.objects.all()
+            serializer = SubsistemaSerializer(data, many=True)  
         return Response(serializer.data)
 
       
@@ -34,7 +34,7 @@ class IslaView(APIView):
         if not data:
             raise Http404
 
-        serializer = IslaSerializer(data, data=request.data)
+        serializer = SubsistemaSerializer(data, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -42,7 +42,7 @@ class IslaView(APIView):
 
     def post(self, request, format=None):
 
-        serializer = IslaSerializer(data=request.data)
+        serializer = SubsistemaSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

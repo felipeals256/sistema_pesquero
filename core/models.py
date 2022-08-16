@@ -10,7 +10,7 @@ MAESTROS
 from core.model.maestro.arte import Arte
 from core.model.maestro.bote import Bote
 from core.model.maestro.especie import Especie
-from core.model.maestro.isla import Isla
+from core.model.maestro.subsistema import Subsistema
 from core.model.maestro.sector import Sector
 from core.model.maestro.zona import Zona
 from core.model.maestro.unidad import Unidad

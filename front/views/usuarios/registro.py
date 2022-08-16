@@ -28,6 +28,8 @@ class CrearView(CreateView):
 			user.first_name = form.cleaned_data.get('first_name')
 			user.last_name = form.cleaned_data.get('last_name')
 			user.pass_local = form.cleaned_data.get('pass_local')
+			user.is_staff = True
+			user.is_active = True
 			if form.cleaned_data.get('password1'):
 				user.set_password(form.cleaned_data.get('password1'))
 

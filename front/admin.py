@@ -4,7 +4,7 @@ from core.model.maestro.arte import Arte
 from core.model.maestro.bote import Bote
 from core.model.maestro.especie import Especie
 from core.model.maestro.especie_tipo import EspecieTipo
-from core.model.maestro.isla import Isla
+from core.model.maestro.subsistema import Subsistema
 from core.model.maestro.sector import Sector
 from core.model.maestro.zona import Zona
 from core.model.maestro.unidad import Unidad
@@ -42,11 +42,11 @@ admin.site.register(Arte,ArteAdmin)
 	
 class BoteAdmin(admin.ModelAdmin):
 	# con esto muestras los campos que deses al mostrar la lista en admin
-    list_display=['numero','matricula','nombre', 'descripcion']
+    list_display=['matricula','nombre']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
-    search_fields =['numero','matricula','nombre', 'descripcion']
+    search_fields =['matricula','nombre']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
-    #list_filter = ['numero', 'descripcion']
+    #list_filter = [ 'descripcion']
     def has_delete_permission(self, request, obj=None):
         return False
 
@@ -70,7 +70,7 @@ admin.site.register(Bote,BoteAdmin)
 
 class EspecieAdmin(admin.ModelAdmin):
 	# con esto muestras los campos que deses al mostrar la lista en admin
-    list_display=['codigo', 'nombre', 'mt_especie_tipo','mt_unidad']
+    list_display=['codigo', 'nombre','mt_unidad']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
     search_fields = ['codigo', 'nombre']
 
@@ -94,7 +94,7 @@ class EspecieAdmin(admin.ModelAdmin):
 admin.site.register(Especie,EspecieAdmin)
 
 
-class IslaAdmin(admin.ModelAdmin):
+class SubsistemaAdmin(admin.ModelAdmin):
 	# con esto muestras los campos que deses al mostrar la lista en admin
     list_display=['codigo', 'descripcion']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
@@ -114,19 +114,19 @@ class IslaAdmin(admin.ModelAdmin):
         return False
 
     def get_actions(self, request):
-        actions = super(IslaAdmin, self).get_actions(request)
+        actions = super(SubsistemaAdmin, self).get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
 
-admin.site.register(Isla,IslaAdmin)
+admin.site.register(Subsistema,SubsistemaAdmin)
 
 
 class SectorAdmin(admin.ModelAdmin):
     # con esto muestras los campos que deses al mostrar la lista en admin
-    list_display=['codigo', 'descripcion']
+    list_display=['nombre']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
-    search_fields = ['codigo', 'descripcion']
+    search_fields = ['nombre']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
 
@@ -235,14 +235,14 @@ admin.site.register(EspecieTipo,EspecieTipoAdmin)
 
 class BoteVigenciaAdmin(admin.ModelAdmin):
     # con esto muestras los campos que deses al mostrar la lista en admin
-    list_display=['mt_bote', 'mt_isla','fecha_termino']
+    list_display=['mt_bote', 'mt_subsistema','fecha_termino']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
-    search_fields = ['mt_bote', 'mt_isla','fecha_termino']
+    search_fields = ['mt_bote', 'mt_subsistema','fecha_termino']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
     ordering = ['-fecha_termino']
 
-    list_filter = ['mt_bote', 'mt_isla','fecha_termino']
+    list_filter = ['mt_bote', 'mt_subsistema','fecha_termino']
 
     readonly_fields = ('user_modificador','user_creador',)
     #metodo que se utiliza al momento de llamar el save()

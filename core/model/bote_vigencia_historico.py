@@ -8,12 +8,12 @@ from rest_framework import serializers
 from core.model.user import User
 
 from core.model.maestro.bote import Bote
-from core.model.maestro.isla import Isla
+from core.model.maestro.subsistema import Subsistema
 from core.model.bote_vigencia import BoteVigencia
 
 
 """
-un bote puede es en más de una isla, pero tienen vijencia, se debe listar un bote en una isla cuando tenga vigencia
+un bote puede es en más de una subsistema, pero tienen vijencia, se debe listar un bote en una subsistema cuando tenga vigencia
 """
 class BoteVigenciaHistorico(models.Model):
 
@@ -26,9 +26,9 @@ class BoteVigenciaHistorico(models.Model):
                      on_delete=models.PROTECT,
                  )
 
-    #solo una relación entre bote e isla
-    mt_isla = models.ForeignKey(
-             Isla, 
+    #solo una relación entre bote e subsistema
+    mt_subsistema = models.ForeignKey(
+             Subsistema, 
              on_delete=models.PROTECT,
          )
 

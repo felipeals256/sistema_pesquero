@@ -1,16 +1,15 @@
 from django.db import models
 
-
+from core.model.maestro.zona import Zona
 from rest_framework import serializers
 
 
-class Isla(models.Model):
+class Subsistema(models.Model):
 
 
 
 
     codigo = models.CharField(
-                            unique=True,
                             max_length=3,
                             verbose_name="código",
                             )
@@ -20,6 +19,13 @@ class Isla(models.Model):
                             blank=True,
                             verbose_name="descripción",
                             )
+
+    mt_zona = models.ManyToManyField(
+                                 Zona, 
+                                null=True,
+                                blank=True,
+                             )
+
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
@@ -44,7 +50,7 @@ class Isla(models.Model):
         
 
     class Meta:
-        verbose_name="Isla"
+        verbose_name="Subsistema"
         verbose_name_plural=verbose_name+"s"
         db_table =("mt_"+str(verbose_name).replace(' ','_')).lower()
     
@@ -53,13 +59,13 @@ class Isla(models.Model):
 
 
 
-class IslaSerializer(serializers.ModelSerializer):
+class SubsistemaSerializer(serializers.ModelSerializer):
 
     #rut = serializers.SerializerMethodField('getRut')
 
     
     class Meta:
-        model = Isla
+        model = Subsistema
         fields='__all__'
         #fields = ('username', 'email')
         #extra_kwargs = {'password': {'write_only': True}}

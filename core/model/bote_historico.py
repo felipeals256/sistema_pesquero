@@ -13,7 +13,6 @@ class BoteHistorico(models.Model):
                  )
 
 
-    numero = models.IntegerField()
     matricula = models.IntegerField()
 
     nombre = models.CharField(max_length=100,
@@ -49,11 +48,6 @@ class BoteHistorico(models.Model):
                             )
 
     observaciones = models.CharField(max_length=255,
-                            null=True,
-                            blank=True,
-                            )
-
-    descripcion = models.CharField(max_length=255,
                             null=True,
                             blank=True,
                             )

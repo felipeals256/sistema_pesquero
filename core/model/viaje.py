@@ -4,7 +4,7 @@ from core.env.base import Base
 from rest_framework import serializers
 
 from core.model.maestro.bote import Bote
-from core.model.maestro.isla import Isla
+from core.model.maestro.subsistema import Subsistema
 from core.model.maestro.especie import Especie
 
 
@@ -34,8 +34,8 @@ class Viaje(Base):
                             max_length=20
                             )
 
-    mt_isla = models.ForeignKey(
-                             Isla, 
+    mt_subsistema = models.ForeignKey(
+                             Subsistema, 
                              on_delete=models.PROTECT,
                          )
 
@@ -130,8 +130,8 @@ class Viaje(Base):
         if not self.tripcode:
             error.append(reg+"No es posible registrar un viaje sin tripcode")
 
-        if not self.mt_isla:
-            error.append(reg+"No es posible registrar un viaje sin isla ({})".format(self.tripcode))
+        if not self.mt_subsistema:
+            error.append(reg+"No es posible registrar un viaje sin subsistema ({})".format(self.tripcode))
 
         if not self.mt_bote:
             error.append(reg+"No es posible registrar un viaje sin bote ({})".format(self.mt_bote))

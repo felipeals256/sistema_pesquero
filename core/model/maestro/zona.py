@@ -4,7 +4,6 @@ from django.db import models
 from rest_framework import serializers
 
 from core.model.maestro.sector import Sector
-from core.model.maestro.isla import Isla
 
 class Zona(models.Model):
 
@@ -24,11 +23,7 @@ class Zona(models.Model):
     """
     mt_sector = models.ManyToManyField(Sector,)
 
-    #mt_isla = models.ForeignKey(
-    #                             Isla, 
-    #                             on_delete=models.PROTECT,
-    #                         )
-
+    
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
 

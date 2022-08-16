@@ -5,8 +5,9 @@ from core.apiview.v1.maestro.arte import ArteView
 from core.apiview.v1.maestro.bote import BoteView
 from core.apiview.v1.maestro.especie import EspecieView
 from core.apiview.v1.maestro.especie_tipo import EspecieTipoView
-from core.apiview.v1.maestro.isla import IslaView
+from core.apiview.v1.maestro.subsistema import SubsistemaView
 from core.apiview.v1.maestro.sector import SectorView
+from core.apiview.v1.sector_by import SectorByView
 from core.apiview.v1.maestro.unidad import UnidadView
 from core.apiview.v1.maestro.zona import ZonaView
 from core.apiview.v1.bote_vigencia import BoteVigenciaView
@@ -27,9 +28,10 @@ urls_core = ([
     path('v1/especie/<pk>', EspecieView.as_view() ),
     path('v1/especie_tipo/', EspecieTipoView.as_view() ),
     path('v1/especie_tipo/<pk>', EspecieTipoView.as_view() ),
-    path('v1/isla/', IslaView.as_view() ),
-    path('v1/isla/<pk>', IslaView.as_view() ),
+    path('v1/subsistema/', SubsistemaView.as_view() ),
+    path('v1/subsistema/<pk>', SubsistemaView.as_view() ),
     path('v1/sector/', SectorView.as_view() ),
+    path('v1/sector/by/<parametro>/<pk>/', SectorByView.as_view() ),
     path('v1/sector/<pk>', SectorView.as_view() ),
     path('v1/unidad/', UnidadView.as_view() ),
     path('v1/unidad/<pk>', UnidadView.as_view() ),

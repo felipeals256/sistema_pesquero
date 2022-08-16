@@ -6,7 +6,12 @@ __pycache__/
 .env
 cloud_sql_proxy
 venv
-/static
+
+/static/admin
+/static/bootstrap-5.0.2
+/static/css
+/static/rest_framework
+
 migrations
 settings.py
 

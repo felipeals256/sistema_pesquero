@@ -39,11 +39,8 @@ class Especie(models.Model):
 
 
 
-    mt_especie_tipo = models.ForeignKey(
+    mt_especie_tipo = models.ManyToManyField(
                             EspecieTipo, 
-                            on_delete=models.PROTECT,
-                            null=True,
-                            blank=True,
                          )
 
     #Es la unidad propuesta, se puede modificar

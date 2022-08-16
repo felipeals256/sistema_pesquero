@@ -21,7 +21,7 @@
                         <thead>
                             <th>ID</th>
                             <th>Tripcode</th>
-                            <th>Isla</th>
+                            <th>Subsistema</th>
                             <th>Bote</th>
                             <th>Temporada</th>
                             <th>Fecha</th>
@@ -32,8 +32,8 @@
                                  <tr class="hover {% if viaje and viaje.tripcode == item.tripcode %} active {% endif %}" onclick="location.href='/reportes/index/{{item.id}}/?page={{page}}'">
                                     <td>{{item.id|default_if_none:''}}</td>
                                     <td>{{item.tripcode|default_if_none:''}}</td>
-                                    <td>{{item.mt_isla.descripcion|default_if_none:''}}</td>
-                                    <td>{{item.mt_bote.descripcion|default_if_none:''}}</td>
+                                    <td>{{item.mt_subsistema.descripcion|default_if_none:''}}</td>
+                                    <td>{{item.mt_bote.nombre|default_if_none:''}}</td>
                                     <td>{{item.temporada|default_if_none:''}}</td>
                                     <td>{{item.fecha|date:'d-m-Y' }}</td>
                                 </tr>
@@ -116,8 +116,8 @@
                             <td>{{viaje.declaracion|default_if_none:''}}</td>
                         </tr>
                         <tr>
-                            <td style="width:30%"><b>Isla:</b></td>
-                            <td>{{viaje.mt_isla|default_if_none:''}}</td>
+                            <td style="width:30%"><b>Subsistema:</b></td>
+                            <td>{{viaje.mt_subsistema|default_if_none:''}}</td>
                         </tr>
                         <tr>
                             <td style="width:30%"><b>Bote:</b></td>
@@ -149,20 +149,19 @@
                         </tr>
                         {% if viaje.es_web == False%}
                         <tr>
-                            <td style="width:30%"><b>Subido el:</b></td>
-                            <td>{{viaje.created_at|default_if_none:''}}</td>
+                            <td>&nbsp;</td>
                         </tr>
                         <tr>
                             <td style="width:30%"><b>Creado por:</b></td>
-                            <td>{{viaje.user_created.getFullName|default_if_none:''}}</td>
-                        </tr>
-                        <tr>
-                            <td style="width:30%"><b>Fecha de creación:</b></td>
-                            <td>{{viaje.local_creacion|default_if_none:''}}</td>
+                            <td>{{viaje.user_created.getFullName|default_if_none:''}} el {{viaje.local_creacion|default_if_none:''}}</td>
                         </tr>
                         <tr>
                             <td style="width:30%"><b>Modificado por:</b></td>
                             <td>{{viaje.user_updated.getFullName|default_if_none:''}} el {{viaje.updated_at|default_if_none:''}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%"><b>Subido:</b></td>
+                            <td>{{viaje.created_at|default_if_none:''}}</td>
                         </tr>
                         {% endif %}
                     </table>
@@ -185,7 +184,7 @@
 
                                 {% for aux in viaje.getTrampaHistorico %}    
                                     <tr>
-                                        <td scope="row">{{aux.mt_sector.descripcion|default_if_none:''}}</td>
+                                        <td scope="row">{{aux.mt_sector.nombre|default_if_none:''}}</td>
                                         <td scope="row">{{aux.otro_sector|default_if_none:''}}</td>
                                         <td scope="row">{% if aux.ventana_escape == True %}Si{% else %} {% if aux.ventana_escape == False %}No{% else %}{% endif %}{% endif %} </td>
                                         <td scope="row">{{aux.num_comercial|default_if_none:''}}</td>

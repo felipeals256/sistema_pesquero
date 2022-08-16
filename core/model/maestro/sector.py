@@ -8,15 +8,9 @@ class Sector(models.Model):
 
 
 
-    codigo = models.CharField(max_length=100,
+    nombre = models.CharField(max_length=100,
                             unique=True,
                             verbose_name="código",
-                            )
-
-    descripcion = models.CharField(max_length=255,
-                            null=True,
-                            blank=True,
-                            verbose_name="descripción",
                             )
     
 
@@ -47,7 +41,7 @@ class Sector(models.Model):
         db_table =("mt_"+str(verbose_name).replace(' ','_')).lower()
     
     def __str__(self):
-        return str(self.codigo)+'-'+str(self.descripcion)
+        return str(self.nombre)
 
 
 

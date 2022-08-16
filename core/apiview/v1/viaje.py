@@ -6,7 +6,7 @@ from rest_framework import status
 
 from core.model.user import User
 from core.model.viaje import Viaje
-from core.model.maestro.isla import Isla
+from core.model.maestro.subsistema import Subsistema
 from core.model.maestro.sector import Sector
 from core.model.maestro.bote import Bote
 from core.model.maestro.especie import Especie
@@ -40,7 +40,7 @@ class ViajeView(APIView):
                 errores=errores+error
                 continue
 
-            isla = Isla.objects.filter(id=dato['mt_isla_id']).first()
+            subsistema = Subsistema.objects.filter(id=dato['mt_subsistema_id']).first()
             bote = Bote.objects.filter(id=dato['mt_bote_id']).first()
             especie = Especie.objects.filter(id=dato['mt_especie_id']).first()
 
@@ -59,7 +59,7 @@ class ViajeView(APIView):
             viaje = Viaje()
             viaje.tripcode = dato['tripcode']
             viaje.declaracion = dato['declaracion']
-            viaje.mt_isla = isla
+            viaje.mt_subsistema = subsistema
             viaje.mt_bote = bote
             viaje.fecha = dato['fecha']
             viaje.temporada = dato['temporada']

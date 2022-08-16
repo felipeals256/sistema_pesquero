@@ -16,10 +16,6 @@ registra la información del id usuario que realiza acciones sobre esta tabla.
 class Bote(models.Model):
 
 
-    numero = models.IntegerField(
-                            unique=True,
-                            verbose_name="número",
-                            )
     matricula = models.IntegerField(
                             unique=True,
                             verbose_name="matrícula",
@@ -62,11 +58,6 @@ class Bote(models.Model):
                             blank=True,
                             )
 
-    descripcion = models.CharField(max_length=255,
-                            null=True,
-                            blank=True,
-                            verbose_name="descripción",
-                            )
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
@@ -94,7 +85,6 @@ class Bote(models.Model):
         if bote:
             historico = BoteHistorico()
             historico.mt_bote           = bote
-            historico.numero            = bote.numero
             historico.matricula         = bote.matricula
             historico.nombre            = bote.nombre
             historico.propietario       = bote.propietario
@@ -104,7 +94,6 @@ class Bote(models.Model):
             historico.forma             = bote.forma
             historico.rpa               = bote.rpa
             historico.observaciones     = bote.observaciones
-            historico.descripcion       = bote.descripcion
             historico.user_modificador  = bote.user_modificador
             historico.save()
 
@@ -124,7 +113,7 @@ class Bote(models.Model):
         db_table =("mt_"+str(verbose_name).replace(' ','_')).lower()
     
     def __str__(self):
-        return str(self.numero)+'-'+str(self.descripcion)
+        return str(self.matricula)+'-'+str(self.nombre)
 
 
 

@@ -8,12 +8,12 @@ from rest_framework import serializers
 from core.model.user import User
 
 from core.model.maestro.bote import Bote
-from core.model.maestro.isla import Isla
+from core.model.maestro.subsistema import Subsistema
 
 
 
 """
-un bote puede es en más de una isla, pero tienen vijencia, se debe listar un bote en una isla cuando tenga vigencia
+un bote puede es en más de una subsistema, pero tienen vijencia, se debe listar un bote en una subsistema cuando tenga vigencia
 """
 class BoteVigencia(models.Model):
 
@@ -24,9 +24,9 @@ class BoteVigencia(models.Model):
                      on_delete=models.PROTECT,
                  )
 
-    #solo una relación entre bote e isla
-    mt_isla = models.ForeignKey(
-             Isla, 
+    #solo una relación entre bote e subsistema
+    mt_subsistema = models.ForeignKey(
+             Subsistema, 
              on_delete=models.PROTECT,
          )
 
@@ -69,8 +69,8 @@ class BoteVigencia(models.Model):
 
 
     def clean(self):
-        if self.id and BoteVigencia.objects.filter(mt_bote_id=self.mt_bote.id,mt_isla_id=self.mt_isla.id).exclude(id=self.id).exists():
-            raise ValidationError("Ya existe una vigencia para este bote en esta isla")
+        if self.id and BoteVigencia.objects.filter(mt_bote_id=self.mt_bote.id,mt_subsistema_id=self.mt_subsistema.id).exclude(id=self.id).exists():
+            raise ValidationError("Ya existe una vigencia para este bote en esta subsistema")
 
 
     def save(self):
@@ -82,7 +82,7 @@ class BoteVigencia(models.Model):
                 historico                   = BoteVigenciaHistorico()
                 historico.bote_vigencia     = self
                 historico.mt_bote           = bote_vigencia.mt_bote
-                historico.mt_isla           = bote_vigencia.mt_isla
+                historico.mt_subsistema           = bote_vigencia.mt_subsistema
                 historico.user_modificador  = bote_vigencia.user_modificador
                 historico.fecha_termino     = bote_vigencia.fecha_termino
                 

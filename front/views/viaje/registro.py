@@ -9,7 +9,7 @@ from core.model.viaje import ViajeSerializer
 from core.model.maestro.bote import Bote
 from core.model.maestro.especie import Especie
 from core.model.maestro.especie import EspecieSerializer
-from core.model.maestro.isla import Isla
+from core.model.maestro.subsistema import Subsistema
 from core.model.maestro.sector import Sector
 from core.model.maestro.sector import SectorSerializer
 
@@ -36,17 +36,17 @@ class RegistroView(View):
 	def get(self,request,id=None,*args,**kwargs):
 
 		viaje = Viaje.objects.filter(id=id).first()
-		islas = Isla.objects.all()
+		subsistemas = Subsistema.objects.all()
 		sectores = Sector.objects.all()
 		bote_vigencia = BoteVigencia.objects.filter( fecha_termino__gt = datetime.today() )
-		especies = Especie.objects.filter(mt_especie_tipo_id=1)
-		carnadas = Especie.objects.filter(mt_especie_tipo_id=2)
-		bycatch = Especie.objects.filter(mt_especie_tipo_id=3)
+		especies = Especie.objects.filter(mt_especie_tipo__id=1)
+		carnadas = Especie.objects.filter(mt_especie_tipo__id=2)
+		bycatch = Especie.objects.filter(mt_especie_tipo__id=3)
 		unidades = Unidad.objects.all()
 
 		return render(request,self.template_name,{
 			"viaje":ViajeSerializer(viaje,many=False).data,
-			"islas":islas,
+			"subsistemas":subsistemas,
 			"bote_vigencia":bote_vigencia,
 			"especies":especies,
 			"sectores":SectorSerializer(sectores,many=True).data,
@@ -60,7 +60,7 @@ class RegistroView(View):
 	def post(self,request,id=None,*args,**kwargs):
 
 		viaje = Viaje.objects.filter(id=id).first()
-		islas = Isla.objects.all()
+		subsistemas = Subsistema.objects.all()
 		sectores = Sector.objects.all()
 		bote_vigencia = BoteVigencia.objects.filter( fecha_termino__gt = datetime.today() )
 		especies = Especie.objects.filter(mt_especie_tipo_id=1)
@@ -70,7 +70,7 @@ class RegistroView(View):
 
 		valores={
 			"viaje":ViajeSerializer(viaje,many=False).data,
-			"islas":islas,
+			"subsistemas":subsistemas,
 			"bote_vigencia":bote_vigencia,
 			"especies":especies,
 			"sectores":SectorSerializer(sectores,many=True).data,
@@ -100,9 +100,9 @@ class RegistroView(View):
 			mes=fecha[1]
 			anio=fecha[0]
 
-		isla = Isla.objects.filter(id=dato['mt_isla_id']).first()
-		if not isla:
-			error="Ingrese la Isla"
+		subsistema = Subsistema.objects.filter(id=dato['mt_subsistema_id']).first()
+		if not subsistema:
+			error="Ingrese el Subsistema"
 			messages.error(self.request, error.upper())
 			return render(request,self.template_name,valores)
 
@@ -121,7 +121,7 @@ class RegistroView(View):
 
 
 		_viaje = Viaje.objects.filter(id=dato['id']).first()
-		_viaje.tripcode=str(isla.codigo).strip()+str(bote.numero).strip()+"_"+str(dia)+str(mes)+str(anio)
+		_viaje.tripcode=str(subsistema.codigo).strip()+str(bote.numero).strip()+"_"+str(dia)+str(mes)+str(anio)
 		
 		if Viaje.objects.filter(tripcode=_viaje.tripcode).exclude(id=_viaje.id).exists():
 			error="Ya existe un registro con este tripcode"
@@ -138,7 +138,7 @@ class RegistroView(View):
 
 		#viaje.tripcode = dato['tripcode']
 		_viaje.declaracion = dato['declaracion']
-		_viaje.mt_isla = isla
+		_viaje.mt_subsistema = subsistema
 		_viaje.mt_bote = bote
 		_viaje.fecha = dato['fecha']
 		_viaje.temporada = dato['temporada']
@@ -238,7 +238,7 @@ class RegistroView(View):
 
 		return render(request,self.template_name,{
 			"viaje":ViajeSerializer(_viaje,many=False).data,
-			"islas":islas,
+			"subsistemas":subsistemas,
 			"bote_vigencia":bote_vigencia,
 			"especies":especies,
 			"sectores":SectorSerializer(sectores,many=True).data,
