@@ -63,9 +63,9 @@ class RegistroView(View):
 		subsistemas = Subsistema.objects.all()
 		sectores = Sector.objects.all()
 		bote_vigencia = BoteVigencia.objects.filter( fecha_termino__gt = datetime.today() )
-		especies = Especie.objects.filter(mt_especie_tipo_id=1)
-		carnadas = Especie.objects.filter(mt_especie_tipo_id=2)
-		bycatch = Especie.objects.filter(mt_especie_tipo_id=3)
+		especies = Especie.objects.filter(mt_especie_tipo__id=1)
+		carnadas = Especie.objects.filter(mt_especie_tipo__id=2)
+		bycatch = Especie.objects.filter(mt_especie_tipo__id=3)
 		unidades = Unidad.objects.all()
 
 		valores={
@@ -121,7 +121,7 @@ class RegistroView(View):
 
 
 		_viaje = Viaje.objects.filter(id=dato['id']).first()
-		_viaje.tripcode=str(subsistema.codigo).strip()+str(bote.numero).strip()+"_"+str(dia)+str(mes)+str(anio)
+		_viaje.tripcode=str(subsistema.codigo).strip()+str(bote.matricula).strip()+"_"+str(dia)+str(mes)+str(anio)
 		
 		if Viaje.objects.filter(tripcode=_viaje.tripcode).exclude(id=_viaje.id).exists():
 			error="Ya existe un registro con este tripcode"
