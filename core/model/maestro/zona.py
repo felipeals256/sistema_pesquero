@@ -9,7 +9,7 @@ class Zona(models.Model):
 
 
     codigo = models.IntegerField(
-                            unique=True,
+                            #unique=True,
                             verbose_name="código",
                             )
 
