@@ -66,17 +66,42 @@ ipcRenderer.on('all:bycatch:response',(e,args)=>{
 })
 */
 
-
+//Esta funcion se activa cuando se cambia el subsistema
+//la idea es traer todos los botes vigentes en el subsistema
 function viajes_seleccionarSubsistema(bote_id=null){
-    id_isla = $("#subsistema").val()
+    //obtiene el id del subsistema
+    id_subsistema = $("#subsistema").val()
 
-    if(!id_isla){
+    if(!id_subsistema){
       return;
     }
+    var crf_token = $('#csrfmiddlewaretoken').attr('value');
+    $.ajax({
+        type: "POST",
+        url: "/api/v1/front/subsistema_bote/"+id_subsistema+"",
+        data: {},
+        headers:{"X-CSRFToken": crf_token},
+        success: function (botes) {
+           
 
+            $('#bote').find('option').remove();
+            $('#bote').append('<option value="">Seleccione...</option>')
+            for (let i = 0; i < botes.length; i++) {
+                $('#bote').append('<option data-object="'+_codificar(botes[i])+'" value="'+botes[i].id+'">'+botes[i].matricula+" - "+botes[i].nombre+'</option>')
+            }
+            if(bote_id){
+              $("[name=mt_bote_id] option[value="+ bote_id +"]").attr("selected",true);
+            }
+
+            },
+        error: function () {
+            alert("A ocurrido un error en la consulta d edatos")
+        }
+    });
+    //deja los botes desmarcados
     $("#bote").val('')
     $("#bote option[data-subsistema]").hide()
-    $("#bote option[data-subsistema="+id_isla+"]").show()
+    $("#bote option[data-subsistema="+id_subsistema+"]").show()
 
     if(bote_id){
 
@@ -138,8 +163,9 @@ function sectores_agregar_datos(trampa_historico=null){
                 if(trampa_historico){
                     for (let i = 0; i < trampa_historico.length; i++) {
                         const trampa = trampa_historico[i];
+                        //console.log(trampa)
                         if(trampa.mt_sector){
-                            $($(".trampas")[i]).find('.select2-selection__rendered').text(trampa.mt_sector)//es el texto del del select del sector
+                            $($(".trampas")[i]).find('.select2-selection__rendered').text(trampa.obj_sector.nombre)//es el texto del del select del sector
                             $($(".trampas")[i]).find("[name=mt_sector_id] option[value="+( trampa.mt_sector?trampa.mt_sector:'')+"]").attr("selected",true);
                         }else{
                             $($(".trampas")[i]).find('.select2-selection__rendered').text("Otro Sector")
@@ -166,7 +192,7 @@ function sectores_agregar_datos(trampa_historico=null){
 
             },
             error: function () {
-                alert("There was an error")
+                alert("A ocurrido un error en la consulta d edatos")
             }
         });
    

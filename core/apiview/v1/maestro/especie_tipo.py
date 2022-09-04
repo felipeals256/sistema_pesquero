@@ -6,6 +6,9 @@ from rest_framework import status
 
 from core.model.maestro.especie_tipo import EspecieTipo
 from core.model.maestro.especie_tipo import EspecieTipoSerializer
+
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
 """
 Tipo Especie: agrupación de las especies, son tres tipos: crustáceos, moluscos, peces.
 """
@@ -13,7 +16,7 @@ Tipo Especie: agrupación de las especies, son tres tipos: crustáceos, moluscos
 class EspecieTipoView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = EspecieTipoSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

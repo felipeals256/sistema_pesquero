@@ -22,7 +22,6 @@ class Subsistema(models.Model):
 
     mt_zona = models.ManyToManyField(
                                  Zona, 
-                                null=True,
                                 blank=True,
                              )
 

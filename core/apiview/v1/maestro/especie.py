@@ -7,6 +7,9 @@ from rest_framework import status
 
 from core.model.maestro.especie import Especie
 from core.model.maestro.especie import EspecieSerializer
+
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
 """
 Especie: Formato lista desplegable con dos campos: LANGOSTA; CANGREJO. Por defecto debe
 estar LANGOSTA.
@@ -17,7 +20,7 @@ from core.model.maestro.especie_tipo import EspecieTipo
 class EspecieView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = EspecieSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

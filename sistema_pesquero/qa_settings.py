@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    "rest_framework_api_key",
     'rest_framework.authtoken', #luego de pegar esto ejecutar la migración
 
     'corsheaders', #habilita el intercambio de recursos de origen cruzado
@@ -50,6 +51,9 @@ INSTALLED_APPS = [
     'core',
     'front'
 ]
+
+API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
+#API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -130,18 +134,22 @@ USE_TZ = True
 USE_TZ = True
 
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
-#PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-STATIC_ROOT = "static"
 STATIC_URL = "/static/"
-STATICFILES_DIRS = []
+
 
 
 
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

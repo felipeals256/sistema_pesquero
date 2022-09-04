@@ -7,10 +7,13 @@ from rest_framework import status
 from core.model.destino_tipo import DestinoTipo
 from core.model.destino_tipo import DestinoTipoSerializer
 
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class DestinoTipoView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = DestinoTipoSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

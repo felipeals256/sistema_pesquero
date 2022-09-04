@@ -14,11 +14,15 @@ from core.model.maestro.unidad import Unidad
 from core.model.trampa_historico import TrampaHistorico
 from core.model.carnada_registro import CarnadaRegistro
 
+
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class ViajeView(APIView):
-    permission_classes = () #no requiere de permisos
+    #permission_classes = () #no requiere de permisos
     #serializer_class = TrampaHistoricoSerializer
     
-
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def post(self, request):
 

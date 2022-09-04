@@ -10,10 +10,14 @@ from core.model.user_type import UserTypeSerializer
 """
 un bote puede es en más de una isla, pero tienen vijencia, se debe listar un bote en una isla cuando tenga vigencia
 """
+
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class UserTypeView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = UserTypeSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

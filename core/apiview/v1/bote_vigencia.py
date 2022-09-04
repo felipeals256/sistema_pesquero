@@ -7,13 +7,15 @@ from rest_framework import status
 from core.model.bote_vigencia import BoteVigencia
 from core.model.bote_vigencia import BoteVigenciaSerializer
 
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
 """
 un bote puede es en más de una isla, pero tienen vijencia, se debe listar un bote en una isla cuando tenga vigencia
 """
 class BoteVigenciaView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = BoteVigenciaSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

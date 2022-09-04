@@ -13,10 +13,13 @@ nombre destino.
 
 """
 
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class DestinoView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = DestinoSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

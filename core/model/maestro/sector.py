@@ -10,7 +10,7 @@ class Sector(models.Model):
 
     nombre = models.CharField(max_length=100,
                             unique=True,
-                            verbose_name="código",
+                            verbose_name="nombre",
                             )
     
 

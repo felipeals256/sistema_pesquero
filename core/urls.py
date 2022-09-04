@@ -18,6 +18,8 @@ from core.apiview.v1.viaje import ViajeView
 from core.apiview.v1.user import UserView
 from core.apiview.v1.user_type import UserTypeView
 
+from core.apiview.v1.front.subsistema_bote import SubsistemaBoteView
+
 urls_core = ([
 
     path('v1/arte/', ArteView.as_view() ),
@@ -52,6 +54,9 @@ urls_core = ([
     path('v1/user/<pk>', UserView.as_view() ),
     path('v1/user_type/', UserTypeView.as_view() ),
     path('v1/user_type/<pk>', UserTypeView.as_view() ),
+
+
+    path('v1/front/subsistema_bote/<pk>',SubsistemaBoteView.as_view())
 
     
 ],"core")

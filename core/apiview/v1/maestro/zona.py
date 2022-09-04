@@ -7,10 +7,13 @@ from rest_framework import status
 from core.model.maestro.zona import Zona
 from core.model.maestro.zona import ZonaSerializer
 
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class ZonaView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = ZonaSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

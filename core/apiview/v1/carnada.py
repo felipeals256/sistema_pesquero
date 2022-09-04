@@ -7,10 +7,13 @@ from rest_framework import status
 from core.model.carnada import Carnada
 from core.model.carnada import CarnadaSerializer
 
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class CarnadaView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = CarnadaSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

@@ -7,10 +7,13 @@ from rest_framework import status
 from core.model.maestro.arte import Arte
 from core.model.maestro.arte import ArteSerializer
 
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class ArteView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = ArteSerializer
-    
+    permission_classes = [HasAPIKey ] #requiere permisos
 
     def get_object(self, pk):
         try:

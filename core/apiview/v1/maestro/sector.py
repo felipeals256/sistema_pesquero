@@ -7,10 +7,13 @@ from rest_framework import status
 from core.model.maestro.sector import Sector
 from core.model.maestro.sector import SectorSerializer
 
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
+
 class SectorView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = SectorSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:

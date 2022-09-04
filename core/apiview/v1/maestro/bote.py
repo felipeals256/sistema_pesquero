@@ -6,6 +6,9 @@ from rest_framework import status
 
 from core.model.maestro.bote import Bote
 from core.model.maestro.bote import BoteSerializer
+
+from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import IsAuthenticated
 """
 BOTE: Se administrará un histórico del bote, con sus características actualizadas desde el
 archivo CTM al comienzo de la temporada. Si se modifica alguna característica, se crea un
@@ -17,7 +20,7 @@ registra la información del id usuario que realiza acciones sobre esta tabla.
 class BoteView(APIView):
     #permission_classes = () #no requiere de permisos
     serializer_class = BoteSerializer
-    
+    permission_classes = [HasAPIKey | IsAuthenticated] #requiere permisos
 
     def get_object(self, pk):
         try:
