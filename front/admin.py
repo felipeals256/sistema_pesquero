@@ -74,6 +74,8 @@ class EspecieAdmin(admin.ModelAdmin):
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
     search_fields = ['codigo', 'nombre']
 
+    autocomplete_fields = ['mt_especie_tipo']
+
     readonly_fields = ('user_modificador','user_creador',)
     #metodo que se utiliza al momento de llamar el save()
     def save_model(self, request, obj, form, change):
@@ -101,6 +103,8 @@ class SubsistemaAdmin(admin.ModelAdmin):
     search_fields = ['codigo', 'descripcion']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
+    autocomplete_fields = ['mt_zona']
+
 
     readonly_fields = ('user_modificador','user_creador',)
     #metodo que se utiliza al momento de llamar el save()
@@ -157,6 +161,8 @@ class ZonaAdmin(admin.ModelAdmin):
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
 
+    autocomplete_fields = ['mt_sector']
+
     readonly_fields = ('user_modificador','user_creador',)
     #metodo que se utiliza al momento de llamar el save()
     def save_model(self, request, obj, form, change):
@@ -173,6 +179,11 @@ class ZonaAdmin(admin.ModelAdmin):
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "author":
+            kwargs["queryset"] = User.objects.filter(is_author=True)
+        return super(ZonaAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 admin.site.register(Zona,ZonaAdmin)
 
