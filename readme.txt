@@ -6,3 +6,6 @@ systemctl stop postgresql-11
 export GOOGLE_CLOUD_PROJECT=sistema-pesquero
 export USE_CLOUD_SQL_AUTH_PROXY=true
 #luego ejecutar migraciones
+
+#fianlomente
+gcloud app deploy
