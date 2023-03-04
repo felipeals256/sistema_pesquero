@@ -40,7 +40,7 @@ class Bote(models.Model):
                             null=True,
                             blank=True,
                             )
-    eslora = models.IntegerField(
+    eslora = models.FloatField(
                             null=True,
                             blank=True,
                             )
@@ -56,6 +56,19 @@ class Bote(models.Model):
     observaciones = models.CharField(max_length=255,
                             null=True,
                             blank=True,
+                            )
+
+    fecha_inscripcion = models.DateTimeField(auto_now_add=True,verbose_name="Fecha de inscripción",)
+
+    rpa_armador = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            verbose_name="RPA Armador",
+                            )
+    caleta = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            verbose_name="Caleta",
                             )
 
 

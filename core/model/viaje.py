@@ -90,6 +90,13 @@ class Viaje(Base):
                                             verbose_name="Fecha modificación local"
                                             ) 
 
+    total_capturado = models.FloatField(
+                            null=True,
+                            blank=True,
+                            verbose_name="Total capturado"
+                            )
+
+
     def getTrampaHistorico(self):
         if self.trampas_historicas == None:
             TrampaHistorico = apps.get_model('core', 'TrampaHistorico')
@@ -123,6 +130,7 @@ class Viaje(Base):
         error = []
         error = error + self.formatear_campos()
 
+
         reg=""
         if i:
             reg="[reg:"+str(i)+"] "
@@ -130,14 +138,21 @@ class Viaje(Base):
         if not self.tripcode:
             error.append(reg+"No es posible registrar un viaje sin tripcode")
 
-        if not self.mt_subsistema:
-            error.append(reg+"No es posible registrar un viaje sin subsistema ({})".format(self.tripcode))
 
-        if not self.mt_bote:
-            error.append(reg+"No es posible registrar un viaje sin bote ({})".format(self.mt_bote))
+        try:
+            if not self.mt_subsistema:
+                error.append(reg+"No es posible registrar un viaje sin subsistema.")
+        except Exception as e:
+            error.append(reg+"No es posible registrar un viaje sin subsistema.")
+
+        try:
+            if not self.mt_bote:
+                error.append(reg+"No es posible registrar un viaje sin bote")
+        except Exception as e:
+            error.append(reg+"No es posible registrar un viaje sin bote")
 
         if not self.fecha:
-            error.append(reg+"No es posible registrar un viaje sin fecha ({})".format(self.fecha))
+            error.append(reg+"No es posible registrar un viaje sin fecha")
 
         return error
 

@@ -70,6 +70,7 @@ class ViajeView(APIView):
             viaje.n_trampas_agua = n_trampas_agua
             viaje.n_trampas_visitadas = n_trampas_visitadas
             viaje.mt_especie = especie
+            viaje.total_capturado = dato['total_capturado']
             viaje.comentario = dato['comentario']
             viaje.es_web=False
             if dato['user_created']:

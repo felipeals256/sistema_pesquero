@@ -39,9 +39,9 @@ class RegistroView(View):
 		subsistemas = Subsistema.objects.all()
 		sectores = Sector.objects.all()
 		bote_vigencia = BoteVigencia.objects.filter( fecha_termino__gt = datetime.today() )
-		especies = Especie.objects.filter(mt_especie_tipo__id=1)
-		carnadas = Especie.objects.filter(mt_especie_tipo__id=2)
-		bycatch = Especie.objects.filter(mt_especie_tipo__id=3)
+		especies = Especie.objects.filter(mt_especie_tipo__codigo=1)
+		carnadas = Especie.objects.filter(mt_especie_tipo__codigo=2)
+		bycatch = Especie.objects.filter(mt_especie_tipo__codigo=3)
 		unidades = Unidad.objects.all()
 
 		return render(request,self.template_name,{
@@ -63,9 +63,9 @@ class RegistroView(View):
 		subsistemas = Subsistema.objects.all()
 		sectores = Sector.objects.all()
 		bote_vigencia = BoteVigencia.objects.filter( fecha_termino__gt = datetime.today() )
-		especies = Especie.objects.filter(mt_especie_tipo__id=1)
-		carnadas = Especie.objects.filter(mt_especie_tipo__id=2)
-		bycatch = Especie.objects.filter(mt_especie_tipo__id=3)
+		especies = Especie.objects.filter(mt_especie_tipo__codigo=1)
+		carnadas = Especie.objects.filter(mt_especie_tipo__codigo=2)
+		bycatch = Especie.objects.filter(mt_especie_tipo__codigo=3)
 		unidades = Unidad.objects.all()
 
 		valores={
@@ -145,6 +145,7 @@ class RegistroView(View):
 		_viaje.n_trampas_agua = n_trampas_agua
 		_viaje.n_trampas_visitadas = n_trampas_visitadas
 		_viaje.mt_especie = especie
+		_viaje.total_capturado = dato['total_capturado']
 		_viaje.comentario = dato['comentario']
 		
 		list_trampas_historicas=dato['list_trampas_historicas']

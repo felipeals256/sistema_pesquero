@@ -1,3 +1,28 @@
+$(document).ready(
+  function(){
+    $("#especie").change(
+      function(){
+        cambio_especie()
+      }
+    )
+  }
+)
+
+function cambio_especie(){
+
+  especie = $("#especie option:selected" ).text()
+  if( especie.trim().toLowerCase().search("langosta")==-1 &&  especie.trim().toLowerCase().search("cangrejo")==-1   ){
+    $("input[name=n_trampas_agua]").val("")
+    $("input[name=n_trampas_agua]").prop( "disabled", true );
+    $("input[name=n_trampas_visitadas]").val("")
+    $("input[name=n_trampas_visitadas]").prop( "disabled", true );
+    $(".trampas").remove()
+    
+  }else{
+    $("input[name=n_trampas_agua]").prop( "disabled", false );
+    $("input[name=n_trampas_visitadas]").prop( "disabled", false );
+  }
+}
 
 
 function viajes_cambiar(vista,elemento){
@@ -136,6 +161,7 @@ function sectores_agregar_datos(trampa_historico=null){
         var crf_token = $('#csrfmiddlewaretoken').attr('value');
 
         id_subsistema = $("#subsistema").val()
+        if(!id_subsistema)return
 
         $.ajax({
             type: "POST",

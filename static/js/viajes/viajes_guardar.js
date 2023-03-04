@@ -35,6 +35,7 @@ function viajes_guardar(event){
     viaje.n_trampas_agua=$($("[name=n_trampas_agua]")[0]).val()
     viaje.n_trampas_visitadas=$($("[name=n_trampas_visitadas]")[0]).val()
     viaje.mt_especie_id=$($("[name=mt_especie_id]")[0]).val()
+    viaje.total_capturado=$($("[name=total_capturado]")[0]).val()
     viaje.comentario=$($("[name=comentario]")[0]).val()
 
     
@@ -248,7 +249,6 @@ function viajes_guardar(event){
     viaje.list_carnadas=list_carnadas
     viaje.list_trampas_historicas=list_trampas_historicas
 
-    
 
     $("#viaje_send").val(JSON.stringify(viaje))
    
@@ -279,6 +279,7 @@ function modificar(){
     $($("[name=temporada]")[0]).val(_viaje.temporada)
     $($("[name=n_trampas_agua]")[0]).val(_viaje.n_trampas_agua)
     $($("[name=n_trampas_visitadas]")[0]).val(_viaje.n_trampas_visitadas)
+    $($("[name=total_capturado]")[0]).val(_viaje.total_capturado)
 
     //console.log(_viaje.trampa_historico)
     trampas_ntrampas(_viaje.trampa_historico)

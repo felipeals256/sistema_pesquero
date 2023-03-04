@@ -17,7 +17,7 @@ class Especie(models.Model):
 
 
 
-    codigo = models.CharField(max_length=5,
+    codigo = models.CharField(max_length=10,
                             unique=True,
                             verbose_name="código",
                             )
