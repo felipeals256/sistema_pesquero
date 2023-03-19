@@ -248,7 +248,7 @@ class BoteVigenciaAdmin(admin.ModelAdmin):
     # con esto muestras los campos que deses al mostrar la lista en admin
     list_display=['mt_bote', 'mt_subsistema','fecha_termino']
     # con esto añades un campo de texto que te permite realizar la busqueda, puedes añadir mas de un atributo por el cual se filtrar
-    search_fields = ['mt_bote', 'mt_subsistema','fecha_termino']
+    search_fields = ['mt_bote__nombre__icontains', 'mt_subsistema__codigo__icontains','fecha_termino']
     # con esto añadiras una lista desplegable con la que podras filtrar (activo es un atributo booleano)
     #list_filter = ['es_bycatch']
     ordering = ['-fecha_termino']
