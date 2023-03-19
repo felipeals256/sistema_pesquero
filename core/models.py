@@ -27,3 +27,4 @@ from core.model.bote_historico import BoteHistorico
 from core.model.trampa_historico import TrampaHistorico
 from core.model.carnada import Carnada
 from core.model.carnada_registro import CarnadaRegistro
+from core.model.api_log import ApiLog

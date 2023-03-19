@@ -13,10 +13,12 @@ from core.model.maestro.especie import Especie
 from core.model.maestro.unidad import Unidad
 from core.model.trampa_historico import TrampaHistorico
 from core.model.carnada_registro import CarnadaRegistro
-
+from core.model.api_log import ApiLog
 
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticated
+
+import json 
 
 class ViajeView(APIView):
     #permission_classes = () #no requiere de permisos
@@ -31,6 +33,13 @@ class ViajeView(APIView):
         
         objetos = []
         errores = []
+
+        apilog=ApiLog()
+
+        apilog.request_data=json.dumps(datos)
+        apilog.save()
+
+     
 
         i=0
 
@@ -125,11 +134,11 @@ class ViajeView(APIView):
 
                     unidad = None
                     if dato_carnada['mt_unidad_id']:
-                        unidad = Unidad.objects.filter(codigo=dato_carnada['mt_unidad_id']).first()
+                        unidad = Unidad.objects.filter(id=dato_carnada['mt_unidad_id']).first()
 
                     carnada = None
                     if dato_carnada['mt_especie_id']:
-                        carnada = Especie.objects.filter(codigo=dato_carnada['mt_especie_id']).first()
+                        carnada = Especie.objects.filter(id=dato_carnada['mt_especie_id']).first()
 
                     carnada_registro = CarnadaRegistro()
                     carnada_registro.viaje   = viaje
@@ -167,6 +176,11 @@ class ViajeView(APIView):
                         carnada_registro.save()
                         #pass
 
-        return Response({"save":recorridos,"errores":errores})
+
+        response={"save":recorridos,"errores":errores}
+        apilog.response_data=json.dumps(response)
+        apilog.save()
+
+        return Response(response)
         #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

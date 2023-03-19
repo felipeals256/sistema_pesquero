@@ -58,7 +58,8 @@ class Bote(models.Model):
                             blank=True,
                             )
 
-    fecha_inscripcion = models.DateTimeField(auto_now_add=True,verbose_name="Fecha de inscripción",)
+    fecha_inscripcion = models.DateField(verbose_name="Fecha de inscripción",null=True,
+                            blank=True)
 
     rpa_armador = models.CharField(max_length=255,
                             null=True,
@@ -107,6 +108,9 @@ class Bote(models.Model):
             historico.forma             = bote.forma
             historico.rpa               = bote.rpa
             historico.observaciones     = bote.observaciones
+            historico.fecha_inscripcion = bote.fecha_inscripcion
+            historico.rpa_armador       = bote.rpa_armador
+            historico.caleta            = bote.caleta
             historico.user_modificador  = bote.user_modificador
             historico.save()
 

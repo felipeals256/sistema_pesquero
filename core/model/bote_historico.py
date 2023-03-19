@@ -52,6 +52,20 @@ class BoteHistorico(models.Model):
                             blank=True,
                             )
 
+    fecha_inscripcion = models.DateField(verbose_name="Fecha de inscripción",null=True,
+                            blank=True)
+
+    rpa_armador = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            verbose_name="RPA Armador",
+                            )
+    caleta = models.CharField(max_length=255,
+                            null=True,
+                            blank=True,
+                            verbose_name="Caleta",
+                            )
+
     fecha_cambio = models.DateTimeField(auto_now_add=True)
 
     #es el usuario que hizo la modificacion en este registro
