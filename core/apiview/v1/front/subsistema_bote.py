@@ -25,7 +25,7 @@ class SubsistemaBoteView(APIView):
 
             SELECT mb.* from bote_vigencia bv 
             left join mt_bote mb on mb.id = bv.mt_bote_id 
-            where ( bv.fecha_termino < now() or bv.fecha_termino is null )
+            where ( bv.fecha_termino >= now() or bv.fecha_termino is null )
             and bv.mt_subsistema_id  = {pk}
             """.format(pk=pk))
 
