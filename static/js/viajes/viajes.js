@@ -170,7 +170,7 @@ function sectores_agregar_datos(trampa_historico=null){
             headers:{"X-CSRFToken": crf_token},
             success: function (sectores) {
 
-                //console.log(sectores)
+
                 $(".sector").children().remove()
                 //sector = $(elemento).parent().parent().parent().find(".sector")
          
@@ -178,7 +178,7 @@ function sectores_agregar_datos(trampa_historico=null){
                 $(".sector").append('<option value="">Seleccione...</option>')
                 $(".sector").append('<option value="otro">Otro Sector</option>')
                 for (let i = 0; i < sectores.length; i++) {
-                    $(".sector").append('<option value="'+sectores[i].id+'">'+sectores[i].nombre+'</option>')
+                    $(".sector").append('<option data-zona_id="'+sectores[i].mt_zona_id+'" value="'+sectores[i].id+'">'+sectores[i].nombre+' ['+sectores[i].mt_zona_descripcion+']</option>')
                 }
 
                 
@@ -189,10 +189,9 @@ function sectores_agregar_datos(trampa_historico=null){
                 if(trampa_historico){
                     for (let i = 0; i < trampa_historico.length; i++) {
                         const trampa = trampa_historico[i];
-                        //console.log(trampa)
                         if(trampa.mt_sector){
-                            $($(".trampas")[i]).find('.select2-selection__rendered').text(trampa.obj_sector.nombre)//es el texto del del select del sector
-                            $($(".trampas")[i]).find("[name=mt_sector_id] option[value="+( trampa.mt_sector?trampa.mt_sector:'')+"]").attr("selected",true);
+                            $($(".trampas")[i]).find('.select2-selection__rendered').text(trampa.obj_sector.nombre+' ['+trampa.obj_zona.descripcion+']')//es el texto del del select del sector
+                            $($(".trampas")[i]).find("[name=mt_sector_id] option[value="+( trampa.mt_sector?trampa.mt_sector:'')+"][data-zona_id="+( trampa.mt_zona?trampa.mt_zona:'undefine')+"]").attr("selected",true);
                         }else{
                             $($(".trampas")[i]).find('.select2-selection__rendered').text("Otro Sector")
                             $($(".trampas")[i]).find("[name=mt_sector_id] option[value=otro]").attr("selected",true);

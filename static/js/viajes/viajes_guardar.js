@@ -109,6 +109,7 @@ function viajes_guardar(event){
         trampa_historico= {}
         trampa_historico.viaje_id=viaje.id
         trampa_historico.mt_sector_id=!_empty($($($(this).find("[name=mt_sector_id]"))[0]).val())?$($($(this).find("[name=mt_sector_id]"))[0]).val():null
+        trampa_historico.mt_zona_id=!_empty($($($(this).find("[name=mt_sector_id] option:selected"))[0]).data("zona_id"))?$($($(this).find("[name=mt_sector_id] option:selected"))[0]).data("zona_id"):null
         trampa_historico.otro_sector=!_empty($($($(this).find("[name=otro_sector]"))[0]).val())?$($($(this).find("[name=otro_sector]"))[0]).val():null
         trampa_historico.ventana_escape=!_empty($($($(this).find("[name=ventana_escape]"))[0]).val())?$($($(this).find("[name=ventana_escape]"))[0]).val():null
         trampa_historico.num_comercial=!_empty($($($(this).find("[name=num_comercial]"))[0]).val())?$($($(this).find("[name=num_comercial]"))[0]).val().trim():null
@@ -116,6 +117,8 @@ function viajes_guardar(event){
         trampa_historico.bycatch_id=!_empty($($($(this).find("[name=bycatch_id]"))[0]).val())?$($($(this).find("[name=bycatch_id]"))[0]).val().trim():null
         trampa_historico.observaciones=!_empty($($($(this).find("[name=observaciones]"))[0]).val())?$($($(this).find("[name=observaciones]"))[0]).val():null
         trampa_historico.bycatch_cantidad=!_empty($($($(this).find("[name=bycatch_cantidad]"))[0]).val())?$($($(this).find("[name=bycatch_cantidad]"))[0]).val().trim():null
+
+
         
 
         if(_empty(trampa_historico.mt_sector_id)){
@@ -249,7 +252,7 @@ function viajes_guardar(event){
     viaje.list_carnadas=list_carnadas
     viaje.list_trampas_historicas=list_trampas_historicas
 
-
+    
     $("#viaje_send").val(JSON.stringify(viaje))
    
     

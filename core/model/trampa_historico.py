@@ -11,6 +11,7 @@ Si no hubo captura, se indica 0. La trampa pertenece a un Sector y a una zona.
 """
 
 from core.model.maestro.sector import Sector
+from core.model.maestro.zona import Zona, ZonaSerializer
 from core.model.maestro.sector import SectorSerializer
 from core.model.viaje import Viaje
 from core.model.maestro.especie import Especie
@@ -86,6 +87,13 @@ class TrampaHistorico(Base):
                             blank=True,
                             )
 
+    mt_zona  = models.ForeignKey(
+                            Zona, 
+                            null=True,
+                            blank=True,
+                            on_delete=models.PROTECT,
+                            )
+
 
     """
         Si se trata de la isla Alejandro Selkirk sólo langosta, habilitar el ingreso para los campos:
@@ -138,14 +146,18 @@ class TrampaHistorico(Base):
 
 class TrampaHistoricoSerializer(serializers.ModelSerializer):
 
-    obj_especie = serializers.SerializerMethodField('getEspecie')
-    obj_sector = serializers.SerializerMethodField('getSector')
+    obj_especie = serializers.SerializerMethodField('get_especie')
+    obj_sector = serializers.SerializerMethodField('get_sector')
+    obj_zona = serializers.SerializerMethodField('get_zona')
 
-    def getEspecie(self,model):
+    def get_especie(self,model):
         return EspecieSerializer(model.bycatch,many=False).data
 
-    def getSector(self,model):
+    def get_sector(self,model):
         return SectorSerializer(model.mt_sector,many=False).data
+
+    def get_zona(self,model):
+        return ZonaSerializer(model.mt_zona,many=False).data
 
     
     class Meta:

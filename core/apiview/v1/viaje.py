@@ -8,6 +8,7 @@ from core.model.user import User
 from core.model.viaje import Viaje
 from core.model.maestro.subsistema import Subsistema
 from core.model.maestro.sector import Sector
+from core.model.maestro.zona import Zona
 from core.model.maestro.bote import Bote
 from core.model.maestro.especie import Especie
 from core.model.maestro.unidad import Unidad
@@ -79,7 +80,10 @@ class ViajeView(APIView):
             viaje.n_trampas_agua = n_trampas_agua
             viaje.n_trampas_visitadas = n_trampas_visitadas
             viaje.mt_especie = especie
-            viaje.total_capturado = dato['total_capturado']
+            total_capturado=None
+            if len(str(dato['total_capturado']).replace(" ",""))>0:
+                total_capturado=dato['total_capturado']
+            viaje.total_capturado = total_capturado
             viaje.comentario = dato['comentario']
             viaje.es_web=False
             if dato['user_created']:
@@ -108,6 +112,10 @@ class ViajeView(APIView):
                     if dato_trampa['mt_sector_id']:
                         sector = Sector.objects.filter(id=dato_trampa['mt_sector_id']).first()
 
+                    zona = None
+                    if dato_trampa['mt_sector_id']:
+                        zona = Zona.objects.filter(id=dato_trampa['mt_zona_id']).first()
+
                     bycatch = None
                     if dato_trampa['bycatch_id']:
                         bycatch = Especie.objects.filter(id=dato_trampa['bycatch_id']).first()
@@ -116,6 +124,7 @@ class ViajeView(APIView):
                     trampa = TrampaHistorico()
                     trampa.viaje            =viaje
                     trampa.mt_sector        =sector
+                    trampa.mt_zona          =zona
                     trampa.otro_sector      =dato_trampa['otro_sector']
                     trampa.ventana_escape   =dato_trampa['ventana_escape']
                     trampa.num_comercial    =dato_trampa['num_comercial']

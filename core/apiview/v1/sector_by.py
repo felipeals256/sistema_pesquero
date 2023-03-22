@@ -9,6 +9,7 @@ from core.model.maestro.sector import SectorSerializer
 
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.permissions import IsAuthenticated
+from django.forms.models import model_to_dict
 
 class SectorByView(APIView):
     #permission_classes = () #no requiere de permisos
@@ -20,15 +21,23 @@ class SectorByView(APIView):
         data = []
 
         if str(parametro).lower().replace(" ","")=='subsistema':
-
+            resultado = []
             data = Sector.objects.raw("""
 
-                SELECT distinct mt_sector.id , mt_sector.* 
+                SELECT  mt_sector.*, mt_zona.id as mt_zona_id , mt_zona.descripcion as mt_zona_descripcion
                 FROM mt_sector
                 left join mt_zona_mt_sector on mt_zona_mt_sector.sector_id = mt_sector.id 
                 left join mt_subsistema_mt_zona on mt_subsistema_mt_zona.zona_id = mt_zona_mt_sector.zona_id 
+                left join mt_zona on mt_subsistema_mt_zona.zona_id = mt_zona.id 
                 where mt_subsistema_mt_zona.subsistema_id = {pk}
                 """.format(pk=pk))
+
+            for obj in data:
+                _obj=model_to_dict(obj)
+                _obj['mt_zona_id']=obj.mt_zona_id
+                _obj['mt_zona_descripcion']=obj.mt_zona_descripcion
+                resultado.append(_obj)
+            return Response(resultado)
 
         else:
             data = Sector.objects.all()
