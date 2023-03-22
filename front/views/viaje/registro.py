@@ -59,7 +59,6 @@ class RegistroView(View):
 
 
 	def post(self,request,id=None,*args,**kwargs):
-
 		viaje = Viaje.objects.filter(id=id).first()
 		subsistemas = Subsistema.objects.all()
 		sectores = Sector.objects.all()
@@ -195,14 +194,13 @@ class RegistroView(View):
 		if dato['list_carnadas'] and len(dato['list_carnadas'])>0:
                 
 			for dato_carnada in dato['list_carnadas']:
-
 				unidad = None
 				if dato_carnada['mt_unidad_id']:
-					unidad = Unidad.objects.filter(codigo=dato_carnada['mt_unidad_id']).first()
+					unidad = Unidad.objects.filter(id=dato_carnada['mt_unidad_id']).first()
 
 				carnada = None
 				if dato_carnada['mt_especie_id']:
-					carnada = Especie.objects.filter(codigo=dato_carnada['mt_especie_id']).first()
+					carnada = Especie.objects.filter(id=dato_carnada['mt_especie_id']).first()
 
 				carnada_registro = CarnadaRegistro()
 				carnada_registro.viaje   = viaje
